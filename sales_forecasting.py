@@ -121,8 +121,8 @@ predicted next value is equal to the expected level of the time series plus the
 appropriate seasonal factor). We first need to create an array to store our 
 forecast values.'''
 def ASM(params):
-    a,b = np.array(params)[:2]
-    p = int(params[2])
+    a,b = np.array(params)
+    p = P
     y_hat=pandas.Series().reindex_like(time_series)
     '''We need to create series to store our E and S values.'''
     E = pandas.Series().reindex_like(time_series)
@@ -145,8 +145,8 @@ predicted next value is equal to the expected level of the time series times
 the appropriate seasonal factor). We first need to create an array to store our 
 forecast values.'''
 def MSM(params):
-    a,b = np.array(params)[:2]
-    p = int(params[2])
+    a,b = np.array(params)
+    p = P
     y_hat=pandas.Series().reindex_like(time_series)
     '''We need to create series to store our E and S values.'''
     E = pandas.Series().reindex_like(time_series)
@@ -169,8 +169,8 @@ predicted next value is equal to the expected level of the time series plus the
 trend, times the appropriate seasonal factor). We first need to create an array 
 to store our forecast values.'''
 def AHW(params):
-    a, b, g = np.array(params)[:3]
-    p = int(params[3])
+    a, b, g = np.array(params)
+    p = P
     y_hat=pandas.Series().reindex_like(time_series)
     '''We need to create series to store our E and S values.'''
     E = pandas.Series().reindex_like(time_series)
@@ -196,8 +196,8 @@ predicted next value is equal to the expected level of the time series plus the
 trend, times the appropriate seasonal factor). We first need to create an array 
 to store our forecast values.'''
 def MHW(params):
-    a, b, g = np.array(params)[:3]
-    p = int(params[3])
+    a, b, g = np.array(params)
+    p = P
     y_hat=pandas.Series().reindex_like(time_series)
     '''We need to create series to store our E and S values.'''
     E = pandas.Series().reindex_like(time_series)
@@ -235,17 +235,15 @@ def MSE(params, args):
 ''' List of all the models we will be optimizing'''
 models = [SES, DES, ASM, MSM, AHW, MHW]
 ''' This is a list of all the default parameters for the models we will be 
-optimizing. P is the number of periods in a cycle.'''
+optimizing. '''
                       #SES,  DES,     ASM
-default_parameters = [[0.5],[0.5,0.5],[0.5,0.5,P],
+default_parameters = [[0.5],[0.5,0.5],[0.5,0.5],
                       #MSM,        AHW,            MHW
-                      [0.5,0.5,P],[0.5,0.5,0.5,P],[0.5,0.5,0.5,P]]
+                      [0.5,0.5],[0.5,0.5,0.5],[0.5,0.5,0.5]]
 ''' This is a list of all the bounds for the default parameters we will be 
-optimizing. All the a,b,g's are weights between 0 and 1. We don't need to 
-optimize our P parameter (number of periods) so its bounds are the value 
-itself.'''
-bounds = [[(0,1)],[(0,1)]*2, [(0,1)]*2 + [(P,P)],
-           [(0,1)]*2 + [(P,P)],[(0,1)]*3 + [(P,P)],[(0,1)]*3 + [(P,P)]]
+optimizing. All the a,b,g's are weights between 0 and 1. '''
+bounds = [[(0,1)],[(0,1)]*2, [(0,1)]*2,
+           [(0,1)]*2,[(0,1)]*3,[(0,1)]*3]
 
 ''' We can now write a loop that will go through all of the possible models and 
 attempt to minimize their MSE. To store the minimized MSE values as well as the 
