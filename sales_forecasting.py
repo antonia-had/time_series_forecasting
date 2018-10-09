@@ -82,9 +82,9 @@ def WMAcon(params):
     return np.sum(weights)-1
 
 '''SINGLE EXPONENTIAL SMOOTHING
-Using this model, y_hat(t+1)=a*y(t)+a(1-a)*y(t-1)...+w(k)*y(t-k+1) (i.e., the 
-predicted next value is equal to the weighted average of the last k observed 
-values). We first need to create an array to store our forecast values.'''
+Using this model, y_hat(t+1)=y_hat(t)+a*(y(t)-y_hat(t))(i.e., the 
+predicted next value is equal to the weighted average of the last forecasted value and its
+difference from the observed). We first need to create an array to store our forecast values.'''
 def SES(params):
     a = np.array(params)
     y_hat=pandas.Series().reindex_like(time_series)
